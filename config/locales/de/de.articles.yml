@@ -82,6 +82,7 @@ de:
         season_amount: 'Staffelmenge'
         season_price: 'Staffelpreis'
       file_label: 'Bitte wähle eine kompatible Datei aus'
+      format_label: 'Datei Format'
       submit: 'Datei hochladen'
     parse_upload:
       title: '%{supplier} / Artikel hochladen'

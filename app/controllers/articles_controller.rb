@@ -140,43 +140,44 @@ class ArticlesController < ApplicationController
   # lets start with parsing articles from uploaded file, yeah
   # Renders the upload form
   def upload
+    @formats = get_import_formats
   end
  
-  # parses the articles from a csv and creates a form-table with the parsed data.
-  # the csv must have the following format:
-  # status | number | name | note | manufacturer | origin | unit | clear price | unit_quantity | tax | deposit | scale quantity | scale price | category
-  # the first line will be ignored. 
-  # field-seperator: ";"
-  # text-seperator: ""
   def parse_upload
+    # parses the articles from an uploaded file and creates a form-table with the parsed data.
+    @articles = Array.new
     begin
-      @articles = Array.new
-      articles, outlisted_articles = FoodsoftFile::parse(params[:articles]["file"])
-      articles.each do |row|
-        # creates a new article and price
-        article = Article.new( :name => row[:name], 
-                               :note => row[:note],
-                               :manufacturer => row[:manufacturer],
-                               :origin => row[:origin],
-                               :unit => row[:unit],
-                               :article_category => ArticleCategory.find_by_name(row[:category]),
-                               :price => row[:price],
-                               :unit_quantity => row[:unit_quantity],
-                               :order_number => row[:number],
-                               :deposit => row[:deposit],
-                               :tax => row[:tax])
-        # stop parsing, when an article isn't valid
-        unless article.valid?
-          raise I18n.t('articles.parse_upload.error_parse', :msg => article.errors.full_messages.join(", "), :line => (articles.index(row) + 2).to_s)
-        end
-        @articles << article
-      end
+      get_import_format(params[:articles]['format']).import(params[:articles]['file']) {|a| @articles << a }
       flash.now[:notice] = I18n.t('articles.parse_upload.notice', :count => @articles.size)
     rescue => error
       redirect_to upload_supplier_articles_path(@supplier), :alert => I18n.t('errors.general_msg', :msg => error.message)
     end
   end
- 
+
+  def get_import_formats
+    Hash[get_import_classes.collect {|c| [c.title, c.name]}]
+  end
+
+  def get_import_format(format)
+    begin
+     f = Import.const_get(format)
+     Class === f or return nil
+     f
+    rescue => error
+     raise "Unknown import format: " + format
+    end
+  end
+
+  def get_import_classes
+    # I tried to use something like
+    #  Dir[File.join(Rails.root, "/lib/import/*.rb")].each {|f| require_relative f}
+    #  Import.constants().select {|c| Class === Import.const_get(c)}
+    # but somehow that did not reliably work on multiple invocations
+    require 'import/foodsoft.rb'
+    require 'import/dnb.rb'
+    [Import::Foodsoft, Import::DNB]
+  end
+
   # creates articles from form
   def create_from_upload
     begin

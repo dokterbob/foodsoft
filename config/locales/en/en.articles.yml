@@ -79,6 +79,7 @@ en:
         season_amount: 'Scaled amount'
         season_price: 'Scaled price'
       file_label: 'Please choose a compatible file'
+      format_label: 'File format'
       submit: 'Upload file'
     parse_upload:
       title: '%{supplier} / upload article'
