@@ -95,31 +95,31 @@ class ArticlesController < ApplicationController
 
     if invalid_articles
       # An error has occurred, transaction has been rolled back.
-      flash.now.alert = I18n.t('articles.update_all.error_invalid')
+      flash.now.alert = I18n.t('articles.controller.error_invalid')
       render :edit_all
     else
       # Successfully done.
-      redirect_to supplier_articles_path(@supplier), notice: I18n.t('articles.update_all.notice')
+      redirect_to supplier_articles_path(@supplier), notice: I18n.t('articles.controller.update_all.notice')
     end
   end
   
   # makes different actions on selected articles
   def update_selected
-    raise I18n.t('articles.update_selected.error_nosel') if params[:selected_articles].nil?
+    raise I18n.t('articles.controller.error_nosel') if params[:selected_articles].nil?
     articles = Article.find(params[:selected_articles])
     Article.transaction do
       case params[:selected_action]
         when 'destroy'
           articles.each(&:mark_as_deleted)
-          flash[:notice] = I18n.t('articles.update_selected.notice_destroy')
+          flash[:notice] = I18n.t('articles.controller.update_sel.notice_destroy')
         when 'setNotAvailable'
           articles.each {|a| a.update_attribute(:availability, false) }
-          flash[:notice] = I18n.t('articles.update_selected.notice_unavail')
+          flash[:notice] = I18n.t('articles.controller.update_sel.notice_unavail')
         when 'setAvailable'
           articles.each {|a| a.update_attribute(:availability, true) }
-          flash[:notice] = I18n.t('articles.update_selected.notice_avail')
+          flash[:notice] = I18n.t('articles.controller.update_sel.notice_avail')
         else
-          flash[:alert] = I18n.t('articles.update_selected.notice_noaction')
+          flash[:alert] = I18n.t('articles.controller.update_sel.notice_noaction')
       end
     end
     # action succeded
@@ -141,7 +141,7 @@ class ArticlesController < ApplicationController
     @articles = Array.new
     begin
       get_import_format(params[:articles]['format']).import(params[:articles]['file']) {|a| @articles << a }
-      flash.now[:notice] = I18n.t('articles.parse_upload.notice', :count => @articles.size)
+      flash.now[:notice] = I18n.t('articles.controller.parse_upload.notice', :count => @articles.size)
     rescue => error
       redirect_to upload_supplier_articles_path(@supplier), :alert => I18n.t('errors.general_msg', :msg => error.message)
     end
@@ -182,10 +182,10 @@ class ArticlesController < ApplicationController
           invalid_articles = true unless article.save
         end
 
-        raise I18n.t('articles.create_from_upload.error_invalid') if invalid_articles
+        raise I18n.t('articles.controller.error_invalid') if invalid_articles
       end
       # Successfully done.
-      redirect_to supplier_articles_path(@supplier), notice: I18n.t('articles.create_from_upload.notice', :count => @articles.size)
+      redirect_to supplier_articles_path(@supplier), notice: I18n.t('articles.controller.create_from_upload.notice', :count => @articles.size)
 
     rescue => error
       # An error has occurred, transaction has been rolled back.
@@ -216,14 +216,14 @@ class ArticlesController < ApplicationController
   def sync
     # check if there is an shared_supplier
     unless @supplier.shared_supplier
-      redirect_to supplier_articles_url(@supplier), :alert => I18n.t('articles.sync.shared_alert', :supplier => @supplier.name)
+      redirect_to supplier_articles_url(@supplier), :alert => I18n.t('articles.controller.sync.shared_alert', :supplier => @supplier.name)
     end
     # sync articles against external database
     @updated_articles, @outlisted_articles = @supplier.sync_all
     # convert to db-compatible-string
     @updated_articles.each {|a, b| a.shared_updated_on = a.shared_updated_on.to_formatted_s(:db)}
     if @updated_articles.empty? && @outlisted_articles.empty?
-      redirect_to supplier_articles_path(@supplier), :notice => I18n.t('articles.sync.notice')
+      redirect_to supplier_articles_path(@supplier), :notice => I18n.t('articles.controller.sync.notice')
     end
   end
 
@@ -243,12 +243,12 @@ class ArticlesController < ApplicationController
       end
 
       # Successfully done.
-      redirect_to supplier_articles_path(@supplier), notice: I18n.t('articles.update_synchronized.notice')
+      redirect_to supplier_articles_path(@supplier), notice: I18n.t('articles.controller.update_sync.notice')
 
     rescue ActiveRecord::RecordInvalid => invalid
       # An error has occurred, transaction has been rolled back.
       redirect_to supplier_articles_path(@supplier),
-                  alert: I18n.t('articles.update_synchronized.error_update', :article => invalid.record.name, :msg => invalid.record.errors.full_messages)
+                  alert: I18n.t('articles.controller.error_update', :article => invalid.record.name, :msg => invalid.record.errors.full_messages)
 
     rescue => error
       redirect_to supplier_articles_path(@supplier),
