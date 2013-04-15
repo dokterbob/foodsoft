@@ -71,18 +71,27 @@ de:
       submit: 'Alle löschen/aktualisieren'
     upload:
       title: '%{supplier} / Artikel hochladen'
-      body:
-        <p>Die Datei muss eine Textdatei mit der Endung '.csv' sein. Die erste Zeile
-        wird beim Einlesen ignoriert.</p>
-        <p>Die Felder müssen mit einem Semikolon (';') getrennt und der Text mit doppelten
-        Anführungszeichen ("Text...") umklammert werden.</p>
-        <p>Als Zeichensatz wird UTF-8 erwartet. Korrekte Reihenfolge der Spalten:</p>
-      fields:
-        status: 'Status (x=ausgelistet)'
-        season_amount: 'Staffelmenge'
-        season_price: 'Staffelpreis'
-      file_label: 'Bitte wähle eine kompatible Datei aus'
       format_label: 'Datei Format'
+      fmt_foodsoft:
+        body: >
+          <p>Die Datei muss eine Textdatei mit der Endung '.csv' sein. Die erste Zeile
+          wird beim Einlesen ignoriert.</p>
+          <p>Die Felder müssen mit einem Semikolon (';') getrennt und der Text mit doppelten
+          Anführungszeichen ("Text...") umklammert werden.</p>
+          <p>Als Zeichensatz wird UTF-8 erwartet. Korrekte Reihenfolge der Spalten:</p>
+        fields:
+          status: 'Status (x=ausgelistet)'
+          season_amount: 'Staffelmenge'
+          season_price: 'Staffelpreis'
+      fmt_dnb:
+        body: >
+          <p>Die Datei muss eine Textdatei mit der Endung '.csv' sein, in das Format
+          von 'De Nieuwe Band'. Die erste Zeile sind die Namen der Kolommen.</p>
+          <p>Die Felder müssen mit einem Komma getrennt werden und der Text mit doppelten
+          Anführungszeichen ("Text...") umklammert werden..</p>
+          <p>Die Namen der Kolommen sind (in zufälliger Reihenfolge):</p>
+          <pre>status, art.nr., omschrijving, kwaliteit, merk, land, eenheid, inkoopprijs, aantal, btw, statiegeld, trefwoord</pre>
+      file_label: 'Bitte wähle eine kompatible Datei aus'
       submit: 'Datei hochladen'
     parse_upload:
       title: '%{supplier} / Artikel hochladen'

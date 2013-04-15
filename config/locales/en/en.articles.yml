@@ -70,16 +70,24 @@ en:
       submit: 'Delete/update all'
     upload:
       title: '%{supplier} / upload articles'
-      body:
-        <p>The file has to be a text file with the ending '.csv' The first line will be ignored when imported</p>
-        <p>The fields have to be separated with semicolons (';') and the text with double quotation marks ("text...").</p>
-        <p>As character set UTF-8 is demanded. Correct order of the column:</p>
-      fields:
-        status: 'Status (x=skip)'
-        season_amount: 'Scaled amount'
-        season_price: 'Scaled price'
-      file_label: 'Please choose a compatible file'
       format_label: 'File format'
+      fmt_foodsoft:
+        body: >
+          <p>The file has to be a text file with the ending '.csv'. The first line will be ignored.</p>
+          <p>Fields need to be separated with semicolons (';') and text with double quotation marks ("text...").</p>
+          <p>As character set UTF-8 is demanded. Correct order of the column:</p>
+        fields:
+          status: 'Status (x=skip)'
+          season_amount: 'Scaled amount'
+          season_price: 'Scaled price'
+      fmt_dnb:
+        body: >
+          <p>The file has to be a text file with the ending '.csv', in the format of 'De Nieuwe Band'.
+          The first line will be ignored.</p>
+          <p>Fields need to be separated with comma's (',') and text with double quotation marks ("text...").</p>
+          <p>The names of valid column names are (in any order):</p>
+          <pre>status, art.nr., omschrijving, kwaliteit, merk, land, eenheid, inkoopprijs, aantal, btw, statiegeld, trefwoord</pre>
+      file_label: 'Please choose a compatible file'
       submit: 'Upload file'
     parse_upload:
       title: '%{supplier} / upload article'
