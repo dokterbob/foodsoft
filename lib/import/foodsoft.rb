@@ -11,7 +11,7 @@ class Import::Foodsoft
   def self.import(file)
     # parses the articles from a csv and creates a form-table with the parsed data.
     # the csv must have the following format:
-    # status | number | name | note | manufacturer | origin | unit | clear price | unit_quantity | tax | deposit | scale quantity | scale price | category
+    # status | number | name | note | manufacturer | origin | unit | clear price | tax | deposit | unit_quantity | scale quantity | scale price | category
     # the first line will be ignored.
     # field-seperator: ";"
     # text-seperator: ""
@@ -35,9 +35,9 @@ class Import::Foodsoft
                              :origin => row[5],
                              :unit => row[6],
                              :price => row[7],
-                             :unit_quantity => row[8],
-                             :tax => row[9],
-                             :deposit => (row[10].nil? ? '0' : row[10]),
+                             :tax => row[8],
+                             :deposit => (row[9].nil? ? '0' : row[9]),
+                             :unit_quantity => row[10],
                              :article_category => category
                            )
       # stop parsing, when an article isn't valid
