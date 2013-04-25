@@ -152,6 +152,7 @@ class ArticlesController < ApplicationController
   end
 
   def get_import_format(format)
+    get_import_classes
     begin
      f = Import.const_get(format)
      Class === f or return nil
