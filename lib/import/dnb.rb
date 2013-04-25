@@ -11,7 +11,8 @@ class Import::DNB
   def self.import(file)
     # parses the articles from a csv and creates a form-table with the parsed data.
     row_index = 1
-    ::CSV.parse(file.read, {:col_sep => ";", :headers => true}) do |row|
+    col_sep = ::ImportHelper.csv_guess_col_sep(file)
+    ::CSV.parse(file.read, {:col_sep => col_sep, :headers => true}) do |row|
       row_index += 1
       # somehow this is needed for uploaded files
       row.each {|k,v| v.nil? or row[k]=v.force_encoding('UTF-8')}

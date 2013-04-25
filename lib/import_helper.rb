@@ -18,4 +18,12 @@ class ImportHelper
       category = ArticleCategory.find_by_name('Other')
       category
   end
+
+  def self.csv_guess_col_sep(file)
+    # return column separator character from first line
+    seps = [",", ";", "\t", "|"]
+    firstline = file.read(200).sub(/[\r\n].*$/,'')
+    file.rewind
+    seps.map {|x| [firstline.count(x),x]}.sort_by {|x| -x[0]}[0][1]
+  end
 end
