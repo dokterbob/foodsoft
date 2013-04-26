@@ -2,9 +2,12 @@ de:
   login:
     accept_invitation:
       title: 'Einlading in die %{name}'
-      body: >
+      group_exists: >
         <p>Du bist eingeladen worden als Mitglied der Gruppe <b>%{group}</b>
         in der Foodcoop %{foodcoop} mitzumachen.</p>
+      group_new: >
+        <p>Du bist eingeladen worden als Mitglied in der Foodcoop %{foodcoop}.</p>
+      body: >
         <p>Wenn Du mitmachen möchtest, dann fülle bitte dieses Formular aus.</p>
         <p>Deine Daten werden selbstverständlich nicht an Dritte, aus was auch immer für
         Gründen, weitergeben. Du kannst auch entscheiden, wieviel deiner persönlichen

@@ -1,6 +1,16 @@
-= t '.text', user: @invite.user.name, mail: @invite.user.email, group: @invite.group.name, link: @link, expires: I18n.l(@invite.expires_at)
+= t '.text_header'
+- if @invite.group.nil?
+  = t '.text_newgroup', foodcoop: FoodsoftConfig[:homepage]
+- else
+  = t '.text_addgroup', user: @invite.user.name, mail: @invite.user.email, group: @invite.group.name
+= t '.text_general', link: @link, expires: I18n.l(@invite.expires_at)
 -# append english text only if the locale is not english
 - if not I18n.locale.to_s.start_with?('en')
   =======
   \
-  = t '.text', user: @invite.user.name, mail: @invite.user.email, group: @invite.group.name, link: @link, expires: I18n.l(@invite.expires_at, locale: :en), locale: :en
+  = t '.text_header', locale: :en
+  - if @invite.group.nil?
+    = t '.text_newgroup', foodcoop: FoodsoftConfig[:homepage], locale: :en
+  - else
+    = t '.text_addgroup', user: @invite.user.name, mail: @invite.user.email, group: @invite.group.name, locale: :en
+  = t '.text_general', link: @link, expires: I18n.l(@invite.expires_at), locale: :en
