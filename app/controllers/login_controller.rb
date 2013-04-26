@@ -51,7 +51,7 @@ class LoginController < ApplicationController
       redirect_to login_url, alert: I18n.t('login.controller.error_invite_invalid')
     elsif request.post?
       User.transaction do
-        @user = User.new(params[:user])
+        @user = User.new(params[:user].reject {|k,v| k=='ordergroup'})
         @user.email = @invite.email
         @group = @invite.group
         # create new group if not part of invite
