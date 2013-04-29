@@ -6,8 +6,7 @@ class Invite < ActiveRecord::Base
   belongs_to :group
 
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-  validates_presence_of :user
-  # when :group is nil, the invite will also create a new ordergroup
+  # when :group is nil, the invite will also create a new ordergroup; then :user may be unset too
   validates_presence_of :token
   validates_presence_of :expires_at
   validate :email_not_already_registered, :on => :create

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121230142516) do
+ActiveRecord::Schema.define(:version => 20130427120000) do
 
   create_table "article_categories", :force => true do |t|
     t.string "name",        :default => "", :null => false
@@ -163,8 +163,8 @@ ActiveRecord::Schema.define(:version => 20121230142516) do
   create_table "invites", :force => true do |t|
     t.string   "token",      :default => "", :null => false
     t.datetime "expires_at",                 :null => false
-    t.integer  "group_id",   :default => 0,  :null => false
-    t.integer  "user_id",    :default => 0,  :null => false
+    t.integer  "group_id"
+    t.integer  "user_id"
     t.string   "email",      :default => "", :null => false
   end
 
