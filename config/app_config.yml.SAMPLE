@@ -46,7 +46,8 @@ default: &defaults
   # stop_ordering_under: 75
 
   # don't require authentication to request an invitation to become a member
-  # from a public website, one can submit a form to /f/invites/create?invite[email]=foo@example.net
+  # from a public website, one can submit a form to
+  #   /f/invites/create_public?invite[email]=foo@example.net
   # to send an invitation to foo@example.net with no associated ordergroup
   # comment out this option to enable anyone to request an invitation
   # invite_public: true
