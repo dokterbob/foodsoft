@@ -11,10 +11,8 @@
 = t('.body', foodcoop: h(FoodsoftConfig[:name])).html_safe
 
 = simple_form_for @user, url: accept_invitation_path do |form|
-  = render partial: 'shared/user_form_fields', locals: {f: form}
-  - if @invite.group.nil?
-    = form.fields_for :ordergroup do |ogform|
-      = ogform.input :contact_address
+  = render partial: 'shared/user_form_fields',
+           locals: {f: form, with_ordergroup: @invite.group.nil?, hide_options: true}
   .form-actions
     = submit_tag t('.submit'), class: 'btn'
 

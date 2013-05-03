@@ -3,13 +3,23 @@
 = f.input :last_name
 = f.input :email
 = f.input :phone
+-# when an ordergroup is created, this is a sensible place to put the field
+- if defined? with_ordergroup and with_ordergroup
+  = f.fields_for :ordergroup do |ogf|
+    = ogf.input :contact_address
 = f.input :password, :required => f.object.new_record?
 = f.input :password_confirmation
+-# allow to hide the privacy and notification options
 .control-group
   .controls
-    - for setting in User::setting_keys.keys
-      %label.checkbox{:for => "user[setting_attributes][#{setting}]"}
-        = hidden_field_tag "user[setting_attributes][#{setting}]", '0'
-        = check_box_tag "user[setting_attributes][#{setting}]", '1',
-        f.object.settings[setting] == '1' || f.object.settings_default(setting)
-        = User::setting_keys[setting]
+    %fieldset
+      - hide_options = false unless defined? hide_options
+      - if hide_options
+        = link_to t('.options'), '#', 'data-toggle-this' => '#options'
+      #options{style: hide_options ? 'display:none' : ''}
+        - for setting in User::setting_keys.keys
+          %label.checkbox{:for => "user[setting_attributes][#{setting}]"}
+            = hidden_field_tag "user[setting_attributes][#{setting}]", '0'
+            = check_box_tag "user[setting_attributes][#{setting}]", '1',
+            f.object.settings[setting] == '1' || f.object.settings_default(setting)
+            = User::setting_keys[setting]
