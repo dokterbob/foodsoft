@@ -11,7 +11,7 @@ de:
         <p>Wenn Du mitmachen möchtest, dann fülle bitte dieses Formular aus.</p>
         <p>Deine Daten werden selbstverständlich nicht an Dritte, aus was auch immer für
         Gründen, weitergeben. Du kannst auch entscheiden, wieviel deiner persönlichen
-        Daten für alle einsehbar sein sollen. 'Alle' bedeutet hier alle Foodcoop-Mitglieder.
+        Daten für Foodcoop-Mitglieder einsehbar sein sollen.
         Die Administratoren haben aber jederzeit Zugriff auf deine Daten.</p>
       submit: 'Foodsoft Account erstellen'
     forgot_password:
