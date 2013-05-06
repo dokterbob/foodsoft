@@ -2,6 +2,13 @@
   .logo
     = t('layouts.logo').html_safe
   %ul.nav.nav-pills.pull-right
+    -# show localisation links if in translation group only
+    - if current_user.groups.exists?(4)
+      - curloc = params[:lang]
+      - curloc = 'default' if curloc.nil? 
+      %li{class: ('disabled' if curloc=='default'), title: 'Show page in default language'}= link_to 'default', '?lang=default'
+      %li{class: ('disabled' if curloc=='en'), title: 'Show page in English'}= link_to 'en', '?lang=en'
+      %li{class: ('disabled' if curloc=='de'), title: 'Show page in German'}= link_to 'de', '?lang=de'
     %li.dropdown
       %a.dropdown-toggle(data-toggle="dropdown" href="#")
         = current_user.nick

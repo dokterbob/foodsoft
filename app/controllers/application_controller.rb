@@ -137,13 +137,18 @@ class ApplicationController < ActionController::Base
     default
   end
 
-  # Always stay in foodcoop url scope
   def default_url_options(options = {})
-    {foodcoop: FoodsoftConfig.scope}
+    # always stay in foodcoop url scope
+    p = {foodcoop: FoodsoftConfig.scope}
+    # and provide language as parameter when given
+    p[:lang] = params[:lang] if params[:lang].present? and params[:lang] != 'default'
+    p
   end
 
-  # Used to prevent accidently switching to :en in production mode.
+  # Select language from lang url param
   def select_language
-    I18n.locale = :de
+    if params[:lang].present? and params[:lang] != 'default'
+      I18n.locale = params[:lang].to_sym
+    end
   end
 end
