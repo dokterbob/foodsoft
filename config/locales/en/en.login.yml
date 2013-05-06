@@ -2,9 +2,12 @@ en:
   login:
     accept_invitation:
       title: 'Invitation to %{name}'
-      body: >
-        <p>You are invited join the foodcoop %{foodcoop} as
+      group_exists: >
+        <p>You are invited to join the foodcoop %{foodcoop} as
         a member of the group <b>%{group}</b>.</p>
+      group_new: >
+        <p>You are invited to join the foodcoop %{foodcoop}.</p>
+      body: >
         <p>If you want to participate, please fill in this form.</p>
         <p>Naturally, your information wll not be shared with third parties for
         any reason. You can decide how much of your personal information
