@@ -3,9 +3,16 @@
     $('user_nick').focus();
 
 - title t('.title', name: FoodsoftConfig[:name])
-= t('.body', group: h(@invite.group.name), foodcoop: h(FoodsoftConfig[:name])).html_safe
+
+- if @invite.group.nil?
+  = t('.group_new', foodcoop: h(FoodsoftConfig[:name])).html_safe
+- else
+  = t('.group_exists', group: h(@invite.group.name), foodcoop: h(FoodsoftConfig[:name])).html_safe
+= t('.body', foodcoop: h(FoodsoftConfig[:name])).html_safe
+
 = simple_form_for @user, url: accept_invitation_path do |form|
-  = render partial: 'shared/user_form_fields', locals: {f: form}
+  = render partial: 'shared/user_form_fields',
+           locals: {f: form, with_ordergroup: @invite.group.nil?, hide_options: true}
   .form-actions
     = submit_tag t('.submit'), class: 'btn'
 

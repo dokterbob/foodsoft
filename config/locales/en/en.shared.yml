@@ -50,6 +50,8 @@ en:
       total: 'Sum'
       total_sum: 'Total sum'
       no_open_orders: 'There are no current orders'
+    user_form_fields:
+      options: 'Notification and privacy options'
     workgroup_members:
       title: 'Group memberships'
 

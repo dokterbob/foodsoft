@@ -9,10 +9,15 @@ de:
        Nachricht online einsehen: %{msg_url}
        Nachrichten-Einstellungen: %{profile_url}
     invite:
-      text: |
+      text_header: |
         Hallo!
-        
+
+
+      text_newgroup: |
+        Sie sind zu dem Foodcoop %{foodcoop} eingeladen.
+      text_addgroup: |
         %{user} <%{mail}> hat dich in die Gruppe "%{group}" eingeladen.
+      text_general: |
         Um die Einladung anzunehmen und der Foodcoop beizutreten, gehe zu: %{link}
         Dieser Link kann nur einmal aufgerufen werden und ist nur bis %{expires} gültig.
         

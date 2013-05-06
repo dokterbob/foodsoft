@@ -50,6 +50,8 @@ de:
       total: 'Summe'
       total_sum: 'Gesamtsumme'
       no_open_orders: 'Derzeit gibt es keine laufenden Bestellungen'
+    user_form_fields:
+      options: 'Einstellungen für Nachrichten und Datenschutz'
     workgroup_members:
       title: 'Mitglieder der Gruppen'
 

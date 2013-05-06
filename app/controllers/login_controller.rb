@@ -49,14 +49,21 @@ class LoginController < ApplicationController
     @invite = Invite.find_by_token(params[:token])
     if @invite.nil? || @invite.expires_at < Time.now
       redirect_to login_url, alert: I18n.t('login.controller.error_invite_invalid')
-    elsif @invite.group.nil?
-      redirect_to login_url, alert: I18n.t('login.controller.error_group_invalid')
     elsif request.post?
       User.transaction do
-        @user = User.new(params[:user])
+        @user = User.new(params[:user].reject {|k,v| k=='ordergroup'})
         @user.email = @invite.email
+        @group = @invite.group
+        # create new group if not part of invite
+        if @group.nil?
+          @group = Ordergroup.new({
+            :name => @user.nick,
+            :contact_person => @user.name,
+            :contact_phone => @user.phone
+          }.merge(params[:user][:ordergroup]))
+        end
         if @user.save
-          Membership.new(:user => @user, :group => @invite.group).save!
+          Membership.new(:user => @user, :group => @group).save!
           @invite.destroy
           redirect_to login_url, notice: I18n.t('login.controller.accept_invitation.notice')
         end
