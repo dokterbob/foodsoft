@@ -13,8 +13,8 @@ de:
       subject: 'Einlading in die Foodcoop'
       text_header: |
         Hallo!
-
-
+        
+        
       text_newgroup: |
         Sie sind zu dem Foodcoop %{foodcoop} eingeladen.
       text_addgroup: |
