@@ -14,6 +14,10 @@ en:
         should be visible to Foodcoop-members.
         Please note that administrators always have access to your information.</p>
       submit: 'Create a Foodsoft account'
+    request_invitation:
+      title: 'Become a member'
+      body: 'Please enter your email address to receive a link for signing up for membership.'
+      submit: 'Sign up'
     forgot_password:
       title: 'Forgot password?'
       body: >
