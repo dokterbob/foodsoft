@@ -9,10 +9,14 @@ en:
        See message online: %{msg_url}
        Messaging options: %{profile_url}
     invite:
-      text: |
+      text_header: |
         Hi!
-        
+
+      text_newgroup: |
+        You are invited to join the foodcoop %{foodcoop}.
+      text_addgroup: |
         %{user} <%{mail}> has invited you to join the group "%{group}".
+      text_general:
         To accept the invitation and to join the foodcoop please follow this link: %{link}
         This link works only once and expires on %{expires}.
         
