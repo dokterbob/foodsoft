@@ -60,7 +60,10 @@ class User < ActiveRecord::Base
     # define a default for the settings
     defaults = {
       "messages.sendAsEmail" => true,
-      "notify.upcoming_tasks" => true
+      "notify.upcoming_tasks" => true,
+      "profile.phoneIsPublic" => true,
+      "profile.emailIsPublic" => true,
+      "profile.nameIsPublic" => true
     }
     return true if self.new_record? && defaults[setting]
   end
