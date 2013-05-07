@@ -1,0 +1,14 @@
+- content_for :javascript do
+  :javascript
+    $('user_nick').focus();
+
+- title t('.title', name: FoodsoftConfig[:name])
+-# TODO don't allow access when public requests are disabled or show a message that that is the case
+%p= t '.body'
+
+- @invite = Invite.new
+= simple_form_for @invite, url: {controller: 'invites', action: 'create_public'} do |f|
+  = f.label :email, style: 'margin-right: 0.5em'
+  = f.input_field :email
+  = submit_tag t('.submit'), class: 'btn'
+
