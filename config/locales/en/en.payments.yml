@@ -1,0 +1,17 @@
+en:
+  payments:
+    index:
+      amount_membership: 'Membership fee (€)'
+      amount_pay: 'Amount to pay (€)'
+      bank: 'Your bank'
+      submit: 'Pay at your bank'
+
+    # used by controller
+    start:
+      membership_fee: '(membership fee)'
+      payment_note: '%{foodcoop} payment for %{username}'
+    result:
+      notice: 'Your account has been credited.'
+      failed: 'Payment failed.'
+    ideal_note:
+      note: 'iDEAL payment #%{transaction_id}'
