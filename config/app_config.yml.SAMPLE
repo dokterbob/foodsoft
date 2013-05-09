@@ -48,6 +48,9 @@ default: &defaults
   # Ordergroups can only order when their balance is higher than or equal to this
   # minimum_balance: 0
 
+  # When enabled, users need to have payed at least this before they can order
+  # membership_fee: 25.00
+
   # don't require authentication to request an invitation to become a member
   # from a public website, one can submit a form to
   #   /f/invites/create_public?invite[email]=foo@example.net

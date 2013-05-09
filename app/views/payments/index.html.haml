@@ -1,0 +1,8 @@
+= form_tag url_for(action: :start), method: :post do
+  .controls
+    = label_tag 'amount', (@initial ? "Membership fee (€)" : "Amount to pay (€)")
+    = number_field_tag 'amount', @amount, min: 0, readonly: @initial
+    = hidden_field_tag 'initial', @initial
+    = label_tag 'bank_id', "Your bank"
+    = select_tag 'bank_id', options_from_collection_for_select(@banks, 'id', 'name')
+  = submit_tag "Checkout"
