@@ -75,10 +75,10 @@ class PaymentsController < ApplicationController
     @transaction = FinancialTransaction.where(:note => self.ideal_note(transaction_id)).first
     if @transaction
       logger.info "iDEAL result: transaction #{transaction_id} succeeded"
-      redirect_to url_for(:controller => :home, :action => :ordergroup), :notice => "Your account has been credited with #{number_to_currency @transaction.amount}"
+      redirect_to url_for(:controller => :home, :action => :ordergroup), :notice => "Your account has been credited."
     else
       logger.info "iDEAL result: transaction #{transaction_id} failed"
-      redirect_to url_for(:action => :index), :alert => 'payment failed' # TODO save from check's response.message
+      redirect_to url_for(:action => :index), :alert => 'payment failed' # TODO recall check's response.message
     end
   end
 
