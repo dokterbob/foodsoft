@@ -6,6 +6,7 @@ class GroupOrdersController < ApplicationController
   before_filter :ensure_open_order, :only => [:new, :create, :edit, :update, :order, :stock_order, :saveOrder]
   before_filter :ensure_my_group_order, only: [:show, :edit, :update]
   before_filter :enough_apples?, only: [:new, :create]
+  before_filter :membership_fee?, only: [:new, :create]
 
   # Index page.
   def index
@@ -30,6 +31,7 @@ class GroupOrdersController < ApplicationController
   end
 
   def show
+    logger.info "@@@ Show group order #{@group_order.id}"
     @order= @group_order.order
   end
 
@@ -93,6 +95,18 @@ class GroupOrdersController < ApplicationController
       redirect_to group_orders_url,
                   alert: t('not_enough_apples', scope: 'group_orders.messages', apples: @ordergroup.apples,
                            stop_ordering_under: FoodsoftConfig[:stop_ordering_under])
+    end
+  end
+
+  def membership_fee?
+    # if not specified in configuration, don't even bother to check
+    FoodsoftConfig[:membership_fee].nil? and return true
+    # ordergroup needs to have payed at least the membership fee
+    totalpayed = @ordergroup.financial_transactions.where('amount > 0').sum('amount')
+    if totalpayed < FoodsoftConfig[:membership_fee]
+      msg = "Your order group needs to pay the membership fee before you can order."
+      # TODO add link to online membership payment when Mollie is configured
+      redirect_to group_orders_url, alert: msg
     end
   end
 
