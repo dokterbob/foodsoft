@@ -67,4 +67,9 @@ Foodsoft::Application.configure do
 
   # Use sendmail to avoid ssl cert problems
   config.action_mailer.delivery_method = :sendmail
+
+  # If you want to use online payment, you need to enter details here
+  #config.ideal_mollie.partner_id = 1234567
+  #config.ideal_mollie.profile_key = '89ABCDEF'
+  #config.ideal_mollie.test_mode = true
 end
