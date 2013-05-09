@@ -38,6 +38,8 @@ gem 'acts_as_configurable', git: 'git://github.com/bwalding/acts_as_configurable
 gem 'resque'
 gem 'whenever', :require => false # For defining cronjobs, see config/schedule.rb
 
+gem 'ideal-mollie'
+
 group :production do
   gem 'exception_notification', :require => 'exception_notifier'
 end
