@@ -4,8 +4,19 @@
 # only on success. Failed transactions leave no trace in the database,
 # but they are logged in the server log.
 #
+# Mollie's check url that is used contains the userid as the last path
+# component, so that a financial transaction can be created on success
+# for that user and ordergroup.
+#
+# Perhaps a cleaner approach would be to create a financial transaction
+# without amount zero when the payment process starts, and keep track
+# of the state using that. Then the transaction id would be enough to
+# process it, and also an error message could be given.
+#
 
 class PaymentsController < ApplicationController
+
+  skip_before_filter :authenticate, :only => [:check]
 
   def index
     @banks = IdealMollie.banks
@@ -30,16 +41,12 @@ class PaymentsController < ApplicationController
       xtranote = " (membership fee)"
     end
 
+    IdealMollie::Config.return_url = url_for(:action => :result, :only_path => false)
+    IdealMollie::Config.report_url = url_for(:action => :check, :only_path => false, :id => @current_user.id)
     request = IdealMollie.new_order((amount*100.0).to_i, "#{FoodsoftConfig[:name]} payment for #{@current_user.nick}#{xtranote}", bank_id)
 
-    payments_id = request.payments_id
+    transaction_id = request.transaction_id
     logger.info "iDEAL start: #{amount} for #{@current_user.nick} with bank #{bank_id}#{xtranote}"
-
-    # TODO: store the payments_id like:
-    # For example:
-    #   my_order = MyOrderObject.find(id)
-    #   my_order.payments_id = payments_id
-    #   my_order.save
 
     redirect_to request.url
   end
@@ -50,19 +57,15 @@ class PaymentsController < ApplicationController
     logger.info "iDEAL check: #{response.inspect}"
 
     if response.paid
+      user = User.find(params[:id])
+      amount = (response.amount/100.0).to_s
+      amount.gsub!('\.',I18n.t('separator')) # workaround localize_input problem
       @transaction = FinancialTransaction.new
-      @transaction.amount = response.amount / 100.00
-      # TODO verify response.currency = our currency
-      @transaction.ordergroup = @current_user.ordergroup.id
+      @transaction.user_id = user.id
+      @transaction.ordergroup_id = user.ordergroup.id
+      @transaction.amount = amount
       @transaction.note = self.ideal_note(transaction_id)
-      @transaction.user = @current_user.id
       @transaction.add_transaction!
-    else
-      # TODO: store the result information for the canceled payment
-      # For example:
-      #   my_order = MyOrder.find_by_payments_id(payments_id)
-      #   my_order.paid = false
-      #   my_order.save
     end
     render :nothing => true
   end
@@ -72,7 +75,7 @@ class PaymentsController < ApplicationController
     @transaction = FinancialTransaction.where(:note => self.ideal_note(transaction_id)).first
     if @transaction
       logger.info "iDEAL result: transaction #{transaction_id} succeeded"
-      redirect_to ordergroup_home_path, :notice => "#{@transaction.user.nick} has been credited with &euro;#{@transaction.amount}"
+      redirect_to url_for(:controller => :home, :action => :ordergroup), :notice => "Your account has been credited with #{number_to_currency @transaction.amount}"
     else
       logger.info "iDEAL result: transaction #{transaction_id} failed"
       redirect_to url_for(:action => :index), :alert => 'payment failed' # TODO save from check's response.message
@@ -81,6 +84,6 @@ class PaymentsController < ApplicationController
 
   protected
   def ideal_note(transaction_id)
-    "iDEAL payment (#{transaction_id})"
+    "iDEAL payment \##{transaction_id}"
   end
 end
