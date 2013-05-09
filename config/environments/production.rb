@@ -69,7 +69,7 @@ Foodsoft::Application.configure do
   config.action_mailer.delivery_method = :sendmail
 
   # If you want to use online payment, you need to enter details here
-  #config.ideal_mollie.partner_id = 1234567
-  #config.ideal_mollie.profile_key = '89ABCDEF'
-  #config.ideal_mollie.test_mode = true
+  config.ideal_mollie.partner_id = 1124741
+  config.ideal_mollie.profile_key = '424DACA5'
+  config.ideal_mollie.test_mode = false
 end
