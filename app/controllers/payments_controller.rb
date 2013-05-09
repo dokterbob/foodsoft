@@ -25,7 +25,7 @@ class PaymentsController < ApplicationController
 
   def membership
     @banks = IdealMollie.banks
-    @initial = true
+    @initial = 1
     @amount = FoodsoftConfig[:membership_fee]
     render :index
   end
@@ -36,7 +36,7 @@ class PaymentsController < ApplicationController
     bank_id = params[:bank_id]
     amount = params[:amount].to_f
     xtranote = ''
-    if params[:initial]
+    if params[:initial] == 1
       amount = FoodsoftConfig[:membership_fee]
       xtranote = ' ' + I18n.t('payments.start.membership_fee')
     end
