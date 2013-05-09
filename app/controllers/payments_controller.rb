@@ -38,12 +38,12 @@ class PaymentsController < ApplicationController
     xtranote = ''
     if params[:initial]
       amount = FoodsoftConfig[:membership_fee]
-      xtranote = " (membership fee)"
+      xtranote = ' ' + I18n.t('payments.start.membership_fee')
     end
 
     IdealMollie::Config.return_url = url_for(:action => :result, :only_path => false)
     IdealMollie::Config.report_url = url_for(:action => :check, :only_path => false, :id => @current_user.id)
-    request = IdealMollie.new_order((amount*100.0).to_i, "#{FoodsoftConfig[:name]} payment for #{@current_user.nick}#{xtranote}", bank_id)
+    request = IdealMollie.new_order((amount*100.0).to_i, I18n.t('payments.start.payment_note', :foodcoop => FoodsoftConfig[:name], :username => @current_user.nick) + xtranote, bank_id)
 
     transaction_id = request.transaction_id
     logger.info "iDEAL start: #{amount} for #{@current_user.nick} with bank #{bank_id}#{xtranote}"
@@ -75,15 +75,16 @@ class PaymentsController < ApplicationController
     @transaction = FinancialTransaction.where(:note => self.ideal_note(transaction_id)).first
     if @transaction
       logger.info "iDEAL result: transaction #{transaction_id} succeeded"
-      redirect_to url_for(:controller => :home, :action => :ordergroup), :notice => "Your account has been credited."
+      redirect_to url_for(:controller => :home, :action => :ordergroup), :notice => I18n.t('payments.result.notice')
     else
       logger.info "iDEAL result: transaction #{transaction_id} failed"
-      redirect_to url_for(:action => :index), :alert => 'payment failed' # TODO recall check's response.message
+      redirect_to url_for(:action => :index), :alert => I18n.t('payments.result.failed') # TODO recall check's response.message
     end
   end
 
   protected
   def ideal_note(transaction_id)
-    "iDEAL payment \##{transaction_id}"
+    # XXX do check that translation contains transaction id, or all second and later transactions will always succeed
+    I18n.t('payments.ideal_note.note', :transaction_id => transaction_id)
   end
 end

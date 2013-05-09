@@ -65,6 +65,8 @@ en:
       people: 'People'
       invite: 'Invite a new Person'
       account_summary: 'Account Statement'
+      online_payment: 'Credit your account'
+      membership_payment: 'Pay your membership'
       search: Search ...
 
     profile:
