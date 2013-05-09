@@ -99,14 +99,12 @@ class GroupOrdersController < ApplicationController
   end
 
   def membership_fee?
-    # if not specified in configuration, don't even bother to check
-    FoodsoftConfig[:membership_fee].nil? and return true
-    # ordergroup needs to have payed at least the membership fee
-    totalpayed = @ordergroup.financial_transactions.where('amount > 0').sum('amount')
-    if totalpayed < FoodsoftConfig[:membership_fee]
+    unless @ordergroup.membership_payed?
       msg = "Your order group needs to pay the membership fee before you can order."
-      # TODO add link to online membership payment when Mollie is configured
-      redirect_to group_orders_url, alert: msg
+      if defined? IdealMollie and IdealMollie::Config.partner_id
+        msg += ' ' + "You can do so directly #{self.class.helpers.link_to 'here', url_for(controller: 'payments', action: 'membership')}."
+      end
+      redirect_to group_orders_url, alert: msg.html_safe
     end
   end
 

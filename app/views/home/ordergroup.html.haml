@@ -16,6 +16,12 @@
           %li= membership.user.nick
       = link_to t('.invite'), new_invite_path(:id => @ordergroup), :remote => true, class: 'btn btn-primary'
   .span8
+    .btn-toolbar.pull-right
+      - if defined? IdealMollie and IdealMollie::Config.partner_id
+        - if @ordergroup.membership_payed?
+          = link_to t('.online_payment'), {:controller => :payments}, class: 'btn btn-primary'
+        - else
+          = link_to t('.membership_payment'), {:controller => :payments, :action => :membership}, class: 'btn btn-primary'
     %h2= t('.account_summary')
     .well.well-small
       = form_tag my_ordergroup_path, :method => :get, :remote => true,

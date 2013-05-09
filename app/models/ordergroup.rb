@@ -87,6 +87,14 @@ class Ordergroup < Group
         group_orders.joins(:order).merge(Order.finished).where('orders.ends >= ?', APPLE_MONTH_AGO.month.ago).count > 2
   end
 
+  def membership_payed?
+    # if not specified in configuration, don't even bother to check
+    FoodsoftConfig[:membership_fee].nil? and return true
+    # ordergroup needs to have payed at least the membership fee
+    totalpayed = financial_transactions.where('amount > 0').sum('amount')
+    totalpayed >= FoodsoftConfig[:membership_fee]
+  end
+
   # Global average
   def self.avg_jobs_per_euro
     stats = Ordergroup.pluck(:stats)
