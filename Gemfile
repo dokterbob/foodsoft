@@ -40,16 +40,18 @@ gem 'whenever', :require => false # For defining cronjobs, see config/schedule.r
 
 gem 'ideal-mollie'
 
-group :production do
+group :production, :translation, :beta do
   gem 'exception_notification', :require => 'exception_notifier'
+end
+
+group :development, :beta do
+  # Better error output
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :development do
   gem 'sqlite3'
-
-  # Better error output
-  gem 'better_errors'
-  gem 'binding_of_caller'
 
   # Re-enable rails benchmarker/profiler
   gem 'ruby-prof'
@@ -60,4 +62,8 @@ group :development do
 
   # Hide assets requests in log
   gem 'quiet_assets'
+end
+
+group :translation do
+  gem 'localeapp'
 end

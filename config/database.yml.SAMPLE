@@ -14,6 +14,11 @@ development:
 # Define a socket, if youre not using standard linux socket, like lampp..
 #  socket: /opt/lampp/var/mysql/mysql.sock
 
+translation:
+  adapter: sqlite3
+  database: db/translation.sqlite3
+  pool: 5
+  timeout: 5000
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
