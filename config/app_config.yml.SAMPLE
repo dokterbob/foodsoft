@@ -101,6 +101,9 @@ default: &defaults
 development:
   <<: *defaults
 
+translation:
+  <<: *defaults
+
 test:
   <<: *defaults
 
