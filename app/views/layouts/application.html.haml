@@ -5,10 +5,10 @@
     -# show localisation links if in translation group only
     - if current_user.groups.exists?(4)
       - curloc = params[:lang]
-      - curloc = 'default' if curloc.nil? 
-      %li{class: ('disabled' if curloc=='default'), title: 'Show page in default language'}= link_to 'default', '?lang=default'
+      - curloc = I18n.default_locale if curloc.nil?
       %li{class: ('disabled' if curloc=='en'), title: 'Show page in English'}= link_to 'en', '?lang=en'
       %li{class: ('disabled' if curloc=='de'), title: 'Show page in German'}= link_to 'de', '?lang=de'
+      %li{class: ('disabled' if curloc=='nl'), title: 'Show page in English'}= link_to 'nl', '?lang=nl'
     %li.dropdown
       %a.dropdown-toggle(data-toggle="dropdown" href="#")
         = current_user.nick
